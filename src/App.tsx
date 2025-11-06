@@ -9,6 +9,7 @@ import { getUserAvatar } from "@/shared/avatars";
 import CommentCard from "@/components/CommentCard";
 import Editor from "@/components/Editor";
 import DeleteModal from "@/components/DeleteModal";
+import { getMentionUser, removeLeadingMention, sortByScoreDesc, sortRepliesByScoreDesc, nextId } from "@/shared/commentsUtils";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -30,16 +31,7 @@ const App = () => {
     id: number;
   } | null>(null);
 
-  const sortByScoreDesc = (list: Comment[]) =>
-    [...list].sort((a, b) => b.score - a.score);
-  const sortRepliesByScoreDesc = (list: Reply[]) =>
-    [...list].sort((a, b) => b.score - a.score);
-  const nextId = (list: Comment[]) =>
-    Math.max(
-      0,
-      ...list.map((cm) => cm.id),
-      ...list.flatMap((cm) => cm.replies.map((rp) => rp.id))
-    ) + 1;
+  // helpers imported from shared/commentsUtils
 
   const updateCommentScore = (id: number, score: number) =>
     setComments((prev) =>
@@ -125,16 +117,7 @@ const App = () => {
       )
     );
 
-  // Beginner-friendly helpers for @mentions in reply text
-  const getMentionUser = (text: string) => {
-    const match = text.trimStart().match(/^@(\w+)/);
-    return match?.[1] ?? null;
-  };
-  const removeLeadingMention = (text: string) => {
-    const trimmed = text.trimStart();
-    const match = trimmed.match(/^@(\w+)/);
-    return match ? trimmed.slice(match[0].length).trimStart() : text;
-  };
+  // mention helpers imported from shared/commentsUtils
 
   // Helper to stamp new comments/replies with the current local time
   const nowString = () => new Date().toLocaleString();
