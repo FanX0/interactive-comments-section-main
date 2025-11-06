@@ -1,15 +1,16 @@
 import { Fragment, useEffect, useState } from "react";
-import type {
-  Comment,
-  CommentsData,
-  User,
-  Reply,
-} from "@/shared/types/Comments";
+import type { Comment, CommentsData, User } from "@/shared/types/Comments";
 import { getUserAvatar } from "@/shared/avatars";
 import CommentCard from "@/components/CommentCard";
 import Editor from "@/components/Editor";
 import DeleteModal from "@/components/DeleteModal";
-import { getMentionUser, removeLeadingMention, sortByScoreDesc, sortRepliesByScoreDesc, nextId } from "@/shared/commentsUtils";
+import {
+  getMentionUser,
+  removeLeadingMention,
+  sortByScoreDesc,
+  sortRepliesByScoreDesc,
+  nextId,
+} from "@/shared/commentsUtils";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);

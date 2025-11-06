@@ -2,11 +2,14 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CommentCard from "@/components/CommentCard";
-import type { Comment, Reply, User } from "@/shared/types/Comments";
+import type { Comment, User } from "@/shared/types/Comments";
 
 const makeUser = (username: string): User => ({
   username,
-  image: { png: `/assets/avatars/${username}.png`, webp: `/assets/avatars/${username}.webp` },
+  image: {
+    png: `/assets/avatars/${username}.png`,
+    webp: `/assets/avatars/${username}.webp`,
+  },
 });
 
 const makeComment = (id: number, username: string, score: number): Comment => ({
@@ -70,7 +73,8 @@ describe("CommentCard visibility and interactions", () => {
     const down = screen.getAllByLabelText("Downvote")[0];
     await user.click(down);
     // last call is downvote to 1
-    const lastCall = onScoreChange.mock.calls[onScoreChange.mock.calls.length - 1];
+    const lastCall =
+      onScoreChange.mock.calls[onScoreChange.mock.calls.length - 1];
     expect(lastCall).toEqual([3, 1]);
   });
 });
